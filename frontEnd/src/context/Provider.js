@@ -38,9 +38,11 @@ function MovieProvider({ children }) {
       }
   }
 
+  const test = ['test', 'test', 'test']
+
   return (
     <Context.Provider
-      value={ { switchSearch } }
+      value={ { switchSearch, test } }
       >
       { children }
     </Context.Provider>
