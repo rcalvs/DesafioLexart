@@ -1,3 +1,8 @@
+import React, {useContext} from React;
+
+const { categories } = useContext(Context);
+console.log(categories);
+
 function Header() {
     return 
     <div>
@@ -30,7 +35,7 @@ function Header() {
         <input
           className="border-1 px-2 w-80 rounded-tl-xl"
           type="text"
-          maxLength="85"
+          maxLength="20"
           onChange={(e) => (console.log(e.target.value))}
         />
         <button
