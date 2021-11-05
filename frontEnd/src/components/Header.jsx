@@ -1,10 +1,17 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import Context from '../context/Context';
 
 
 function Header() {
-  const { categories, getProductsByCategory } = useContext(Context);
+  const { categories, getProductsByCategory, getProductsByQuery } = useContext(Context);
   // console.log(categories);
+  const [ query, setQuery ] = useState('');
+
+
+  const submitQuery = (event) => {
+    event.preventDefault();
+    getProductsByQuery(query);
+  }
   
   return (
     <div className='flex p-4 justify-center shadow-xl'>
@@ -26,7 +33,6 @@ function Header() {
         >
           Categories
           <option value="" disabled selected hidden>Categories</option>
-
           {
             categories.map((category) => (<option value={category.id}>{category.name}</option>))
           }
@@ -34,12 +40,12 @@ function Header() {
       </div>
       <form
         className='flex p-2'
-        onSubmit={(e) => (console.log(e.target.value))}>
+        onSubmit={(e) => (submitQuery(e))}>
         <input
           className='w-72 border-2 rounded-lg mx-2 border-blue-400 focus:border-blue-500 focus:outline-none focus:ring'
           type="text"
           maxLength='20'
-          onChange={(e) => (console.log(e.target.value))}
+          onChange={(e) => (setQuery(e.target.value))}
         />
         <button className='rounded-lg p-2 px-4 bg-blue-400 hover:bg-blue-500'>
           Search

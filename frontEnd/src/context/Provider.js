@@ -25,16 +25,16 @@ function Provider({ children }) {
   const getProductsByCategory = async (id) => {
     setLoading('true')
     const getProducts = await MercadoLivre.getProductsByCategory(id);
-    console.log(getProducts.results);
-    setSearch(getProducts);
+    // console.log(getProducts.results);
+    setSearch(getProducts.results);
     setLoading('false')
   }
 
   const getProductsByQuery = async (query) => {
     setLoading('true')
     const getProducts = await MercadoLivre.getProductsByQuery(query);
-    console.log(getProducts);
-    setSearch(getProducts);
+    // console.log(getProducts);
+    setSearch(getProducts.results);
     setLoading('false')
   }
 
@@ -71,7 +71,7 @@ function Provider({ children }) {
 
   return (
     <Context.Provider
-      value={ { switchSearch, test, search, loading, setLoading, categories, getProductsByCategory } }
+      value={ { switchSearch, test, search, loading, setLoading, categories, getProductsByCategory, getProductsByQuery } }
       >
       { children }
     </Context.Provider>

@@ -6,20 +6,18 @@ import Context from './context/Context'
 function App() {
 
   const { test, loading, setLoading, search} = useContext(Context)
-
+  //  console.log(search);
+  
   return (
     <div>
       <Header />
-      {/* {
-        test ? <span>Loading, please wait a little...</span>
-        :test.map((ele) => <Card product={ele} />)
-      } */}
       {
-        search ? <span>Loading, please wait a little...</span>
-        :search.map((ele) => <Card product={ele} />)
+        search === undefined || search.length === 0 ?<h2 className='flex justify-center m-auto pt-8'>Faça uma pesquisa!</h2>
+        : search.map((ele) => <Card product={ele} />)
       }
     </div>
   );
 }
+//         :search.map((ele) => <Card product={ele} />)
 
 export default App;
