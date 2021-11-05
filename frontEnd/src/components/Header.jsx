@@ -1,50 +1,50 @@
-import React, {useContext} from React;
+import React, {useContext} from 'react';
+import Context from '../context/Context';
 
-const { categories } = useContext(Context);
-console.log(categories);
+// const { categories } = useContext(Context);
+// console.log(categories);
 
 function Header() {
-    return 
-    <div>
-      <h1>Hello World</h1>
-      <div>
+    return (
+    <div className='flex p-4 justify-center shadow-xl'>
+      <div className='flex mx-4'>
         <select
-          className=''
+          className='rounded-lg px-2 my-2  focus:outline-none block'
           onChange={(e) => (console.log(e.target.value))}
         >
-          Search
+          <option value="hidden" disabled selected hidden>Web</option>
           <option value="both">Both</option>
           <option value="mercadoLivre">MercadoLivre</option>
           <option value="buscape">Buscapé</option>
         </select>
       </div>
-      <div>
+      <div className='flex mx-4'>
         <select
-          className=''
+          className='rounded-lg px-2 my-2  focus:outline-none block'
           onChange={(e) => (console.log(e.target.value))}
         >
           Categories
+          <option value="" disabled selected hidden>Categories</option>
           <option value="both">Both</option>
           <option value="mercadoLivre">MercadoLivre</option>
           <option value="buscape">Buscapé</option>
         </select>
       </div>
       <form
-        className="flex m-auto justify-center font-hand text-xl pb-4 shadow-xl"
+        className='flex p-2'
         onSubmit={(e) => (console.log(e.target.value))}>
         <input
-          className="border-1 px-2 w-80 rounded-tl-xl"
+          className='w-72 border-2 rounded-lg mx-2 border-blue-400 focus:border-blue-500 focus:outline-none focus:ring'
           type="text"
-          maxLength="20"
+          maxLength='20'
           onChange={(e) => (console.log(e.target.value))}
         />
-        <button
-          className="border-1 py-1 px-2 border-black bg-yellow-400 rounded-br-xl"
-        >
+        <button className='rounded-lg p-2 px-4 bg-blue-400 hover:bg-blue-500'>
           Search
         </button>
       </form>
     </div>
+  )
 }
 
-export default Header
+export default Header;
