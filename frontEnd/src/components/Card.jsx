@@ -1,5 +1,5 @@
 function Card(props) {
-  console.log(props);
+  console.log(props[0]);
 
   return (
     <div className='flex border-1 justify-center pt-8 '>
@@ -8,8 +8,8 @@ function Card(props) {
       
       <div className='flex-col border-1 relative'>
         <h1 className='text-2xl'>Product Name</h1>
-        <span className='italic'>
-          Lorem ipsum dolor sit amet, consectetru adipiscigin elit sed</span>
+        <p className='italic pt-2'>
+          Lorem ipsum dolor sit amet, consectetru adipiscigin elit sed</p>
         <h3 className='absolute bottom-4 left-4'>Price</h3>
       </div>
 

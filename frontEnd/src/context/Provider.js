@@ -18,7 +18,6 @@ function Provider({ children }) {
   const fetchCategories = async () => {
     setLoading('true')
     const getCategories = await MercadoLivre.getCategories();
-    console.log(getCategories);
     setCategories(getCategories);
     setLoading('false')
   }
@@ -26,7 +25,7 @@ function Provider({ children }) {
   const getProductsByCategory = async (id) => {
     setLoading('true')
     const getProducts = await MercadoLivre.getProductsByCategory(id);
-    console.log(getProducts);
+    console.log(getProducts.results);
     setSearch(getProducts);
     setLoading('false')
   }
@@ -40,7 +39,7 @@ function Provider({ children }) {
   }
 
   const searchWithSwitch = async (param, value) => {
-    if (param = 'mercadoLivre') {
+    if (param === 'mercadoLivre') {
       getProductsByCategory(value);
     }
   }
@@ -68,11 +67,11 @@ function Provider({ children }) {
       }
   }
 
-  const test = ['test', 'test', 'test']
+  const test = ['test', 'test', 'test', 'test']
 
   return (
     <Context.Provider
-      value={ { switchSearch, test, search, loading, categories } }
+      value={ { switchSearch, test, search, loading, setLoading, categories, getProductsByCategory } }
       >
       { children }
     </Context.Provider>

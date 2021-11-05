@@ -1,11 +1,12 @@
 import React, {useContext} from 'react';
 import Context from '../context/Context';
 
-// const { categories } = useContext(Context);
-// console.log(categories);
 
 function Header() {
-    return (
+  const { categories, getProductsByCategory } = useContext(Context);
+  // console.log(categories);
+  
+  return (
     <div className='flex p-4 justify-center shadow-xl'>
       <div className='flex mx-4'>
         <select
@@ -21,13 +22,14 @@ function Header() {
       <div className='flex mx-4'>
         <select
           className='rounded-lg px-2 my-2  focus:outline-none block'
-          onChange={(e) => (console.log(e.target.value))}
+          onChange={(e) => (getProductsByCategory(e.target.value))}
         >
           Categories
           <option value="" disabled selected hidden>Categories</option>
-          <option value="both">Both</option>
-          <option value="mercadoLivre">MercadoLivre</option>
-          <option value="buscape">Buscapé</option>
+
+          {
+            categories.map((category) => (<option value={category.id}>{category.name}</option>))
+          }
         </select>
       </div>
       <form

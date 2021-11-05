@@ -1,25 +1,24 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import Header from './components/Header';
-import Provider from './context/Provider';
 import Card from './components/Card';
-
-// const { test, loading } = useContext(Context)
+import Context from './context/Context'
 
 function App() {
-  return (
-    <Provider>
-      <div>
-        <Header />
-        {/* {
-          loading ? <span>Loading, please wait a little...</span>
-          :test.map((ele) => <Card product={ele} />)
-        } */}
-        <Card />
-        <Card />
-        <Card />
 
-      </div>
-    </Provider>
+  const { test, loading, setLoading, search} = useContext(Context)
+
+  return (
+    <div>
+      <Header />
+      {/* {
+        test ? <span>Loading, please wait a little...</span>
+        :test.map((ele) => <Card product={ele} />)
+      } */}
+      {
+        search ? <span>Loading, please wait a little...</span>
+        :search.map((ele) => <Card product={ele} />)
+      }
+    </div>
   );
 }
 
