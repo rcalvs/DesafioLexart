@@ -1,33 +1,18 @@
 const searchModel = require('../models/searchModel')
 
-const validate = (query) => {
-  if (typeof (query) === 'string') {
-    return {
-      err: {
-        code: 'invalid_query', message: '"query" must be a string' } };
-  }
+const create = async ({query, data}) => {
+  console.log('bem vindo ao Service');
+  // console.log(query);
+  const search = await searchModel.create({query, data});
+  return { search };
 };
 
-const create = async (query, data) => {
-  const result = await validate(query);
-  if (result) {
-    return result;
-  }
-
-  const exists = await searchModel.findByName(name);
-  if (exists) {
-    return {
-      err: {
-        code: 'invalid_query',
-        message: 'Query already exists',
-      }
-    };
-  }
-
-  const search = await searchModel.create(query, data);
-  return { search };
+const getAll = async () => {
+  const result = await searchModel.getAll();
+  return result;
 };
 
 module.exports = {
   create,
+  getAll,
 };

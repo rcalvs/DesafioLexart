@@ -10,12 +10,17 @@ app.use(cors());
 
 // Parse request body to json
 app.use(bodyParser.json());
+app.use(express.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
+
 
 app.get('/', (req, res) => {
   res.send({ message: 'Working' })
 });
 
 app.post('/save', searchController.create);
+//app.get('/save/:id', searchController.findById)
+app.get('/save', searchController.getAll)
 
 // /save salva a pesquisa, a pesquisa
 // obj Search {
@@ -23,4 +28,4 @@ app.post('/save', searchController.create);
 //  data: [array de resposta]  
 //}
 
-app.listen(3001, () => console.log('App listening on port 3000!'));
+app.listen(3001, () => console.log('App listening on port 3001!'));

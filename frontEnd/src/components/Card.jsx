@@ -1,11 +1,9 @@
 import React from 'react';
 
 function Card(props) {
-  console.log(props.product);
 
   const { title, price, permalink, thumbnail } = props.product;
 
-  console.log(title);
   if (title === undefined) {
     return (
       <div className='flex border-1 justify-center pt-8'>
