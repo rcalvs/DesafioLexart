@@ -7,9 +7,11 @@ const create = async ({ query, data }) => {
   return { _id: result.insertedId, query, data };  
 };
 
-const findByName = async (query) => {
+const getById = async (id) => {
+  console.log('bem vindo ao Model');
+  console.log(id);
   const db = await getConnection();
-  const result = await db.collection('lexartProducts').findOne({ query });
+  const result = await db.collection('lexartProducts').findOne({ query: id });
   return result;
 };
 
@@ -21,6 +23,6 @@ const getAll = async () => {
 
 module.exports = {
   create,
-  findByName,
   getAll,
+  getById,
 };

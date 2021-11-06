@@ -12,7 +12,13 @@ const getAll = async () => {
   return result;
 };
 
+const getById = async (id) => {
+  const recipe = await searchModel.getById(id);
+  return recipe;
+};
+
 module.exports = {
   create,
   getAll,
+  getById,
 };

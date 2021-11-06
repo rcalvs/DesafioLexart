@@ -33,20 +33,35 @@ function Provider({ children }) {
     if ( mercadoLivre === 'true' || wallMart === 'false') {
       // Fazer requisição pro banco:
       // If true, retorna a query ja salva
-      // If false, busca API e salva no banco
+      const response = await searchCheck(find.MLB);
+      setSearch(response);
+
+      // If false, busca API 
       const getProducts = await MercadoLivre.getProductsByCategory(find.MLB);
       setSearch(getProducts.results);
+      
+      // e salva no banco
       schemaTemplate(find.MLB, getProducts.results)
       setLoading('false');
     } else if ( mercadoLivre === 'false' || wallMart === 'true') {
+      const response = await searchCheck(find.WallMart);
+      setSearch(response);
+
       const getProducts = await WallMart.getProductsByCategory(find.WallMart);
       setSearch(getProducts.category_results);
+
+      schemaTemplate(find.WallMart, getProducts.category_results)
       setLoading('false');
     } else {
+      const response = await searchCheck(find.MLB);
+      setSearch(response);
+
       const getProductsFromMLB = await MercadoLivre.getProductsByCategory(find.MLB);
       const getProductsFromWallMart = await WallMart.getProductsByCategory(find.WallMart);
       const completeSearch = [...getProductsFromMLB.results, ...getProductsFromWallMart.category_results];
+      
       setSearch(completeSearch);
+      schemaTemplate(find.MLB, completeSearch)
       setLoading('false');
     }
   }
@@ -56,16 +71,19 @@ function Provider({ children }) {
     if ( mercadoLivre === 'true' || wallMart === 'false') {
       const getProducts = await MercadoLivre.getProductsByQuery(query);
       setSearch(getProducts.results);
+      schemaTemplate(query, getProducts.results)
       setLoading('false')
     } else if ( mercadoLivre === 'false' || wallMart === 'true') {
       const getProducts = await WallMart.getProductsByQuery(query);
       setSearch(getProducts.category_results);
+      schemaTemplate(query, getProducts.category_results)
       setLoading('false');
     } else {
       const getProductsFromMLB = await MercadoLivre.getProductsByQuery(query);
       const getProductsFromWallMart = await WallMart.getProductsByQuery(query);
       const completeSearch = [...getProductsFromMLB.results, ...getProductsFromWallMart.category_results];
       setSearch(completeSearch);
+      schemaTemplate(query, completeSearch)
       setLoading('false');
     }
   }
@@ -115,12 +133,14 @@ function Provider({ children }) {
       })
   }
 
-  const getURL = 'http://localhost:3001/save/'
-  const searchCheck = (id) => {
-    axios.get(`${getURL}/${id}`, { query })
+  const getURL = 'http://localhost:3001/save'
+  const searchCheck = async (id) => {
+    const response = await axios.get(`${getURL}/${id}`, { query })
       .then(res => {
-        console.log(res.data.insertedId);
+        console.log(res.data.search.data);
+        return res.data.search.data
       })
+    return response
   }
 
   ////////////// /////////////////// //////////////

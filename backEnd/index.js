@@ -19,7 +19,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/save', searchController.create);
-//app.get('/save/:id', searchController.findById)
+app.get('/save/:id', searchController.getById)
 app.get('/save', searchController.getAll)
 
 // /save salva a pesquisa, a pesquisa
