@@ -2,10 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Context from './Context';
 import * as MercadoLivre from '../services/MercadoLivre';
 import * as Categories from '../services/Categorias';
+import * as WallMart from '../services/WallMart';
 
 function Provider({ children }) {
   const [mercadoLivre, setMercadoLivre] = useState('true')
-  const [buscape, setBuscape] = useState('true')
+  const [wallMart, setWallMart] = useState('true')
   const [categories, setCategories] = useState([])
   const [search, setSearch] = useState([])
   const [loading, setLoading] = useState('true')
@@ -25,27 +26,40 @@ function Provider({ children }) {
 
   const getProductsByCategory = async (id) => {
     setLoading('true')
-    console.log(id);
     const find = categories.find(c => c.name === id)
-    console.log(find.MLB);
-
-    // const getProducts = await MercadoLivre.getProductsByCategory(id);
-    // // console.log(getProducts.results);
-    // setSearch(getProducts.results);
-    setLoading('false')
+    if ( mercadoLivre === 'true' || wallMart === 'false') {
+      const getProducts = await MercadoLivre.getProductsByCategory(find.MLB);
+      setSearch(getProducts.results);
+      setLoading('false')
+    } else if ( mercadoLivre === 'false' || wallMart === 'true') {
+      const getProducts = await WallMart.getProductsByCategory(find.WallMart);
+      setSearch(getProducts.category_results);
+      setLoading('false')
+    } else {
+      const getProductsFromMLB = await MercadoLivre.getProductsByCategory(find.MLB);
+      const getProductsFromWallMart = await WallMart.getProductsByCategory(find.WallMart);
+      const completeSearch = [...getProductsFromMLB.results, ...getProductsFromWallMart.category_results];
+      setSearch(completeSearch);
+      setLoading('false')
+    }
   }
 
   const getProductsByQuery = async (query) => {
     setLoading('true')
-    const getProducts = await MercadoLivre.getProductsByQuery(query);
-    // console.log(getProducts);
-    setSearch(getProducts.results);
-    setLoading('false')
-  }
-
-  const searchWithSwitch = async (param, value) => {
-    if (param === 'mercadoLivre') {
-      getProductsByCategory(value);
+    if ( mercadoLivre === 'true' || wallMart === 'false') {
+      const getProducts = await MercadoLivre.getProductsByQuery(query);
+      setSearch(getProducts.results);
+      setLoading('false')
+    } else if ( mercadoLivre === 'false' || wallMart === 'true') {
+      const getProducts = await WallMart.getProductsByQuery(query);
+      setSearch(getProducts.category_results);
+      setLoading('false')
+    } else {
+      const getProductsFromMLB = await MercadoLivre.getProductsByQuery(query);
+      const getProductsFromWallMart = await WallMart.getProductsByQuery(query);
+      const completeSearch = [...getProductsFromMLB.results, ...getProductsFromWallMart.category_results];
+      setSearch(completeSearch);
+      setLoading('false')
     }
   }
 
@@ -53,30 +67,28 @@ function Provider({ children }) {
     switch (param) {
         case 'mercadoLivre':
         setMercadoLivre('true');
-        setBuscape('false')
-        searchWithSwitch('mercadoLivre')
+        setWallMart('false')
+        console.log('Você está no MercadoLivre');
             break;
-        case 'buscape':
+        case 'WallMart':
             setMercadoLivre('false');
-            setBuscape('true')
-            searchWithSwitch('buscape')
-        break;
+            setWallMart('true')
+            console.log('Você está no WallMart');
+            break;
         case 'both':
             setMercadoLivre('true');
-            setBuscape('true')
-            searchWithSwitch('both')
-        break;
+            setWallMart('true')
+            console.log('Você está buscando na Rede');
+            break;
         default:
             console.log('Error');
             break;
       }
   }
 
-  const test = ['test', 'test', 'test', 'test']
-
   return (
     <Context.Provider
-      value={ { switchSearch, test, search, loading, setLoading, categories, getProductsByCategory, getProductsByQuery } }
+      value={ { switchSearch, search, loading, setLoading, categories, getProductsByCategory, getProductsByQuery } }
       >
       { children }
     </Context.Provider>

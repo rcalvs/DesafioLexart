@@ -3,10 +3,8 @@ import Context from '../context/Context';
 
 
 function Header() {
-  const { categories, getProductsByCategory, getProductsByQuery } = useContext(Context);
-  // console.log(categories);
+  const { categories, getProductsByCategory, getProductsByQuery, switchSearch } = useContext(Context);
   const [ query, setQuery ] = useState('');
-
 
   const submitQuery = (event) => {
     event.preventDefault();
@@ -18,12 +16,12 @@ function Header() {
       <div className='flex mx-4'>
         <select
           className='rounded-lg px-2 my-2  focus:outline-none block'
-          onChange={(e) => (console.log(e.target.value))}
+          onChange={(e) => (switchSearch(e.target.value))}
         >
           <option value="hidden" disabled selected hidden>Web</option>
           <option value="both">Both</option>
           <option value="mercadoLivre">MercadoLivre</option>
-          <option value="buscape">Buscapé</option>
+          <option value="WallMart">WallMart</option>
         </select>
       </div>
       <div className='flex mx-4'>

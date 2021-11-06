@@ -1,12 +1,11 @@
-import React, {useContext, useEffect} from 'react';
+import React, { useContext } from 'react';
 import Header from './components/Header';
 import Card from './components/Card';
-import Context from './context/Context'
+import Context from './context/Context';
 
 function App() {
 
-  const { test, loading, setLoading, search} = useContext(Context)
-  //  console.log(search);
+  const { search} = useContext(Context)
   
   return (
     <div>
@@ -18,6 +17,5 @@ function App() {
     </div>
   );
 }
-//         :search.map((ele) => <Card product={ele} />)
 
 export default App;
