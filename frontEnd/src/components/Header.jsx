@@ -34,15 +34,16 @@ function Header() {
           Categories
           <option value="" disabled selected hidden>Categories</option>
           {
-            categories.map((category) => (<option value={category.id}>{category.name}</option>))
+            categories.map((category) => (<option value={category.name}>{category.name}</option>))
           }
         </select>
+
       </div>
       <form
         className='flex p-2'
         onSubmit={(e) => (submitQuery(e))}>
         <input
-          className='w-72 border-2 rounded-lg mx-2 border-blue-400 focus:border-blue-500 focus:outline-none focus:ring'
+          className='w-72 border-2 px-2 rounded-lg mx-2 border-blue-400 focus:border-blue-500 focus:outline-none focus:ring'
           type="text"
           maxLength='20'
           onChange={(e) => (setQuery(e.target.value))}

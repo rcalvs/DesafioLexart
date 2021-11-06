@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Context from './Context';
-import * as MercadoLivre from '../services/API';
+import * as MercadoLivre from '../services/MercadoLivre';
+import * as Categories from '../services/Categorias';
 
 function Provider({ children }) {
   const [mercadoLivre, setMercadoLivre] = useState('true')
@@ -17,16 +18,20 @@ function Provider({ children }) {
 
   const fetchCategories = async () => {
     setLoading('true')
-    const getCategories = await MercadoLivre.getCategories();
+    const getCategories = await Categories.getCategories();
     setCategories(getCategories);
     setLoading('false')
   }
 
   const getProductsByCategory = async (id) => {
     setLoading('true')
-    const getProducts = await MercadoLivre.getProductsByCategory(id);
-    // console.log(getProducts.results);
-    setSearch(getProducts.results);
+    console.log(id);
+    const find = categories.find(c => c.name === id)
+    console.log(find.MLB);
+
+    // const getProducts = await MercadoLivre.getProductsByCategory(id);
+    // // console.log(getProducts.results);
+    // setSearch(getProducts.results);
     setLoading('false')
   }
 
