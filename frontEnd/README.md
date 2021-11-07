@@ -7,7 +7,7 @@ Aqui estão as ferramentas desenvolvidas no FrontEnd do projeto, as tecnologias 
 - TailwindCSS
 - Deploy com Heroku
 
-[Clique aqui para visualizá-lo o projeto pronto](www.google.com)
+[Clique aqui para visualizá-lo o projeto pronto](https://rcalvs-lexartFront.herokuapp.com/)
 
 ---
 ## Scripts Disponíveis
