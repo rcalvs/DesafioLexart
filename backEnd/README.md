@@ -1,70 +1,65 @@
-# Getting Started with Create React App
+# Desafio Lexart - BackEnd
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Aqui estão as ferramentas desenvolvidas no BackEnd do projeto, as tecnologias utilizadas foram:
 
-## Available Scripts
+- NodeJS
+- MongoDB
+- Express
 
-In the project directory, you can run:
+---
+## Requisitos
 
-### `yarn start`
+Para o desenvolvimento, você só precisará do Node.js e de um pacote global do nó, Yarn, instalado em seu ambiente.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+### Node
+- #### Instalação do Node no Windows
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+Basta acessar [site oficial do Node.js] (https://nodejs.org/) e baixar o instalador.
+Além disso, certifique-se de ter `git` disponível em seu PATH,` npm` pode precisar dele (você pode encontrar git [aqui] (https://git-scm.com/)).
 
-### `yarn test`
+- #### Instalação do Node no Ubuntu
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Você pode instalar nodejs e npm facilmente com apt install, basta executar os seguintes comandos.
 
-### `yarn build`
+      $ sudo apt install nodejs
+      $ sudo apt install npm
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- #### Outros sistemas operacionais
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Você pode encontrar mais informações sobre a instalação no [site oficial do Node.js] (https://nodejs.org/) e no [site oficial do NPM] (https://npmjs.org/).
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Se a instalação foi bem-sucedida, você deve ser capaz de executar o seguinte comando.
 
-### `yarn eject`
+    $ node --version
+    v8.11.3
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+    $ npm --version
+    6.1.0
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Se você precisar atualizar o `npm`, pode fazê-lo usando` npm`. Depois de executar o seguinte comando, basta abrir novamente a linha de comando.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+    $ npm install npm -g
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+###
+### Instalação do Yarn
+Depois de instalar o node, este projeto também precisará do yarn, então apenas execute o seguinte comando.
 
-## Learn More
+      $ npm install -g yarn
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+---
+## Configurar aplicativo
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Abra `Lexart/backEnd/.env` e edite-o com suas configurações. Você vai precisar de:
 
-### Code Splitting
+- MONGO_DB_URL, uma URL válida de acesso ao MongoDB;
+- DB_NAME, o nome do banco de dados escolhido;
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Instalação do Diretório
 
-### Analyzing the Bundle Size
+    $ git clone https://github.com/rcalvs/desafioLexart
+    $ cd desafioLexart/backEnd
+    $ yarn install
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+## Executando o projeto
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+    $ yarn run dev
