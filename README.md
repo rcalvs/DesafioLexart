@@ -2,8 +2,6 @@
 
 Esse desafio proposto pela [Lexart Labs](https://lexartlabs.com/) como um teste técnico para preenchimento de vaga Full Stack, dessa forma, nesse repositório há dois diretórios, um para o FrontEnd e outro para o BackEnd, ambos possuem README proprios para auxilia-lo a rodar o projeto, então inicialmente, basta clonar esse repositório e, dentro de cada pasta, seguir as orientações propostas.
 
-Adicionalmente, há um terceiro diretório com algumas funções adicionais solicitadas pela empresa.
-
 ---
 ## Contexto:
 
