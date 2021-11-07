@@ -18,7 +18,7 @@ const getById = async (req, res) => {
   console.log('bem vindo ao Controller');
   console.log(id);
   const search = await searchService.getById(id);
-  console.log(search.data);
+  // console.log(search.data);
   return res.status(200).json({search});
 };
 

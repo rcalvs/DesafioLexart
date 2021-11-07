@@ -28,63 +28,83 @@ function Provider({ children }) {
 
   const getProductsByCategory = async (id) => {
     setLoading('true');
-
     const find = categories.find(c => c.name === id);
+
     if ( mercadoLivre === 'true' || wallMart === 'false') {
-      // Fazer requisição pro banco:
-      // If true, retorna a query ja salva
-      const response = await searchCheck(find.MLB);
-      setSearch(response);
+      const response = await checkDatabaseFirst(find.MLB);
 
-      // If false, busca API 
-      const getProducts = await MercadoLivre.getProductsByCategory(find.MLB);
-      setSearch(getProducts.results);
-      
-      // e salva no banco
-      schemaTemplate(find.MLB, getProducts.results)
-      setLoading('false');
+      if (response === false) {
+        const getProducts = await MercadoLivre.getProductsByCategory(find.MLB);
+        setSearch(getProducts.results);
+        schemaTemplate(find.MLB, getProducts.results);
+        setLoading('false');
+      }
+
     } else if ( mercadoLivre === 'false' || wallMart === 'true') {
-      const response = await searchCheck(find.WallMart);
-      setSearch(response);
+      const response = await checkDatabaseFirst(find.WallMart);
 
-      const getProducts = await WallMart.getProductsByCategory(find.WallMart);
-      setSearch(getProducts.category_results);
-
-      schemaTemplate(find.WallMart, getProducts.category_results)
-      setLoading('false');
+      if (response === false) {
+        const getProducts = await WallMart.getProductsByCategory(find.WallMart);
+        setSearch(getProducts.category_results);
+        schemaTemplate(find.WallMart, getProducts.category_results);
+        setLoading('false');
+      }
     } else {
-      const response = await searchCheck(find.MLB);
-      setSearch(response);
+      const response = await checkDatabaseFirst(find.MLB);
 
-      const getProductsFromMLB = await MercadoLivre.getProductsByCategory(find.MLB);
-      const getProductsFromWallMart = await WallMart.getProductsByCategory(find.WallMart);
-      const completeSearch = [...getProductsFromMLB.results, ...getProductsFromWallMart.category_results];
-      
-      setSearch(completeSearch);
-      schemaTemplate(find.MLB, completeSearch)
-      setLoading('false');
+      if (response === false) {
+        const getProductsFromMLB = await MercadoLivre.getProductsByCategory(find.MLB);
+        const getProductsFromWallMart = await WallMart.getProductsByCategory(find.WallMart);
+        const completeSearch = [...getProductsFromMLB.results, ...getProductsFromWallMart.category_results];
+        setSearch(completeSearch);
+        schemaTemplate(find.MLB, completeSearch);
+        setLoading('false');
+      }
     }
+  }
+
+  const checkDatabaseFirst = async (param) => {
+    const response = await searchCheck(param);
+    if (Boolean(response) === true) {
+      console.log('response é True');
+      setSearch(response);
+      return true;
+    }
+    console.log('response é False');
+    return false;
   }
 
   const getProductsByQuery = async (query) => {
     setLoading('true');
     if ( mercadoLivre === 'true' || wallMart === 'false') {
-      const getProducts = await MercadoLivre.getProductsByQuery(query);
-      setSearch(getProducts.results);
-      schemaTemplate(query, getProducts.results)
-      setLoading('false')
+      const response = await checkDatabaseFirst(query);
+
+      if (response === false) {
+        const getProducts = await MercadoLivre.getProductsByQuery(query);
+        setSearch(getProducts.results);
+        schemaTemplate(query, getProducts.results);
+        setLoading('false');     
+      }
     } else if ( mercadoLivre === 'false' || wallMart === 'true') {
-      const getProducts = await WallMart.getProductsByQuery(query);
-      setSearch(getProducts.category_results);
-      schemaTemplate(query, getProducts.category_results)
-      setLoading('false');
+      const response = await checkDatabaseFirst(query);
+
+      if (response === false) {
+        const getProducts = await WallMart.getProductsByQuery(query);
+        setSearch(getProducts.category_results);
+        schemaTemplate(query, getProducts.category_results);
+        setLoading('false');
+      }
     } else {
-      const getProductsFromMLB = await MercadoLivre.getProductsByQuery(query);
-      const getProductsFromWallMart = await WallMart.getProductsByQuery(query);
-      const completeSearch = [...getProductsFromMLB.results, ...getProductsFromWallMart.category_results];
-      setSearch(completeSearch);
-      schemaTemplate(query, completeSearch)
-      setLoading('false');
+      const response = await checkDatabaseFirst(query);
+
+      if (response === false) {
+        const getProductsFromMLB = await MercadoLivre.getProductsByQuery(query);
+        const getProductsFromWallMart = await WallMart.getProductsByQuery(query);
+        const completeSearch = [...getProductsFromMLB.results, ...getProductsFromWallMart.category_results];
+        setSearch(completeSearch);
+        schemaTemplate(query, completeSearch);
+        setLoading('false');
+      }
     }
   }
 
@@ -118,13 +138,13 @@ function Provider({ children }) {
     const schema = {
       query: id,
       data: sliced.slice(0,2)
-    }
-    setQuery(schema)
+    };
+    setQuery(schema);
     console.log(query);
-    searchSubmit(query)
+    searchSubmit(query);
   }
 
-  const postURL = 'http://localhost:3001/save'
+  const postURL = 'http://localhost:3001/save';
   const searchSubmit = () => {
     axios.post(postURL, { query })
       .then(res => {
@@ -133,14 +153,17 @@ function Provider({ children }) {
       })
   }
 
-  const getURL = 'http://localhost:3001/save'
+  const getURL = 'http://localhost:3001/save';
   const searchCheck = async (id) => {
     const response = await axios.get(`${getURL}/${id}`, { query })
       .then(res => {
-        console.log(res.data.search.data);
-        return res.data.search.data
+        if (res.data.search === null) {
+          return console.log('Error: Could not find data from Database');
+        } else {
+          return res.data.search.data;
+        }
       })
-    return response
+    return response;
   }
 
   ////////////// /////////////////// //////////////
