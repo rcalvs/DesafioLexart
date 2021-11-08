@@ -21,7 +21,7 @@ function Header() {
           <option value="hidden" disabled selected hidden>Web</option>
           <option value="both">Both</option>
           <option value="mercadoLivre">MercadoLivre</option>
-          <option value="WallMart">WallMart</option>
+          <option value="buscape">Buscape</option>
         </select>
       </div>
       <div className='flex mx-4'>

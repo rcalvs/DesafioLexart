@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import Context from './Context';
 import * as MercadoLivre from '../services/MercadoLivre';
 import * as Categories from '../services/Categorias';
-import * as WallMart from '../services/WallMart';
 import axios from "axios";
 
 function Provider({ children }) {
   const [mercadoLivre, setMercadoLivre] = useState('true');
-  const [wallMart, setWallMart] = useState('true');
+  const [buscape, setBuscape] = useState('true');
   const [categories, setCategories] = useState([]);
   const [search, setSearch] = useState([]);
   const [loading, setLoading] = useState('true');
@@ -30,23 +29,23 @@ function Provider({ children }) {
     setLoading('true');
     const find = categories.find(c => c.name === id);
 
-    if ( mercadoLivre === 'true' || wallMart === 'false') {
+    if ( mercadoLivre === 'true' || buscape === 'false') {
       const response = await checkDatabaseFirst(find.MLB);
 
-      if (response === false) {
+       if (response === false) {
         const getProducts = await MercadoLivre.getProductsByCategory(find.MLB);
         setSearch(getProducts.results);
         schemaTemplate(find.MLB, getProducts.results);
         setLoading('false');
       }
 
-    } else if ( mercadoLivre === 'false' || wallMart === 'true') {
-      const response = await checkDatabaseFirst(find.WallMart);
+    } else if ( mercadoLivre === 'false' || buscape === 'true') {
+      const response = await checkDatabaseFirst(find.buscape);
 
-      if (response === false) {
-        const getProducts = await WallMart.getProductsByCategory(find.WallMart);
-        setSearch(getProducts.category_results);
-        schemaTemplate(find.WallMart, getProducts.category_results);
+       if (response === false) {
+        const getProducts = await scrapperSearchById(find.buscape);
+        setSearch(getProducts);
+        schemaTemplate(find.buscape, getProducts.category_results);
         setLoading('false');
       }
     } else {
@@ -54,8 +53,8 @@ function Provider({ children }) {
 
       if (response === false) {
         const getProductsFromMLB = await MercadoLivre.getProductsByCategory(find.MLB);
-        const getProductsFromWallMart = await WallMart.getProductsByCategory(find.WallMart);
-        const completeSearch = [...getProductsFromMLB.results, ...getProductsFromWallMart.category_results];
+        const getProductsFromBuscape = await scrapperSearchById(find.buscape);
+        const completeSearch = [...getProductsFromBuscape, ...getProductsFromMLB.results];
         setSearch(completeSearch);
         schemaTemplate(find.MLB, completeSearch);
         setLoading('false');
@@ -76,7 +75,7 @@ function Provider({ children }) {
 
   const getProductsByQuery = async (query) => {
     setLoading('true');
-    if ( mercadoLivre === 'true' || wallMart === 'false') {
+    if ( mercadoLivre === 'true' || buscape === 'false') {
       const response = await checkDatabaseFirst(query);
 
       if (response === false) {
@@ -85,13 +84,13 @@ function Provider({ children }) {
         schemaTemplate(query, getProducts.results);
         setLoading('false');     
       }
-    } else if ( mercadoLivre === 'false' || wallMart === 'true') {
+    } else if ( mercadoLivre === 'false' || buscape === 'true') {
       const response = await checkDatabaseFirst(query);
 
       if (response === false) {
-        const getProducts = await WallMart.getProductsByQuery(query);
-        setSearch(getProducts.category_results);
-        schemaTemplate(query, getProducts.category_results);
+        const getProducts = await scrapperSearchByQuery(query);
+        setSearch(getProducts);
+        schemaTemplate(query, getProducts);
         setLoading('false');
       }
     } else {
@@ -99,8 +98,8 @@ function Provider({ children }) {
 
       if (response === false) {
         const getProductsFromMLB = await MercadoLivre.getProductsByQuery(query);
-        const getProductsFromWallMart = await WallMart.getProductsByQuery(query);
-        const completeSearch = [...getProductsFromMLB.results, ...getProductsFromWallMart.category_results];
+        const getProductsFromBuscape = await buscape.getProductsByQuery(query);
+        const completeSearch = [...getProductsFromBuscape, ...getProductsFromMLB.results];
         setSearch(completeSearch);
         schemaTemplate(query, completeSearch);
         setLoading('false');
@@ -112,17 +111,17 @@ function Provider({ children }) {
     switch (param) {
         case 'mercadoLivre':
         setMercadoLivre('true');
-        setWallMart('false');
+        setBuscape('false');
         // console.log('Você está no MercadoLivre');
           break;
-        case 'WallMart':
+        case 'buscape':
           setMercadoLivre('false');
-          setWallMart('true')
-          // console.log('Você está no WallMart');
+          setBuscape('true')
+          // console.log('Você está no buscape');
           break;
         case 'both':
           setMercadoLivre('true');
-          setWallMart('true')
+          setBuscape('true')
           // console.log('Você está buscando na Rede');
           break;
         default:
@@ -166,6 +165,27 @@ function Provider({ children }) {
     return response;
   }
 
+  const scrapperURL = 'http://localhost:3001/buscape';
+  const scrapperSearchById = async (id) => {
+    const response = await axios.get(`${scrapperURL}/${id}`)
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+        return res.data;
+      })
+    return response;
+  }
+  
+  const scrapperQueryURL = 'http://localhost:3001/buscape/query';
+  const scrapperSearchByQuery = async (query) => {
+    const response = await axios.get(`${scrapperQueryURL}/${query}`)
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+        return res.data;
+      })
+    return response;
+  }
   ////////////// /////////////////// //////////////
 
   return (

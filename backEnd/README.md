@@ -5,6 +5,7 @@ Aqui estão as ferramentas desenvolvidas no BackEnd do projeto, as tecnologias u
 - NodeJS
 - MongoDB
 - Express
+- Puppeteer
 
 ---
 ## Requisitos

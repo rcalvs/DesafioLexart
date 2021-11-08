@@ -5,6 +5,7 @@ const cors = require('cors');
 const app = express();
 
 const searchController = require('./controllers/searchController')
+const webScrapper = require('./services/webScrapper')
 
 app.use(cors());
 
@@ -18,14 +19,12 @@ app.get('/', (req, res) => {
   res.send({ message: 'Working' })
 });
 
-app.post('/save', searchController.create);
-app.get('/save/:id', searchController.getById)
-app.get('/save', searchController.getAll)
+app.get('/buscape/:id', webScrapper.getById);
+app.get('/buscape/query/:id', webScrapper.getByQuery);
 
-// /save salva a pesquisa, a pesquisa
-// obj Search {
-//  query: pesquisa enviada
-//  data: [array de resposta]  
-//}
+
+app.post('/save', searchController.create);
+app.get('/save/:id', searchController.getById);
+app.get('/save', searchController.getAll);
 
 app.listen(3001, () => console.log('App listening on port 3001!'));
