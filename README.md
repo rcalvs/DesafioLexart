@@ -20,5 +20,4 @@ Crie um mecanismo de pesquisa de produtos que se conecte à página do mercado l
 - Arquitetura em camadas;
 
 ## Dificuldades encontradas no Desenvolvimento
-- Não encontrei documentação ou acesso a API do Buscapé, todos os dados em diretŕorios do Github e no Stackoverflow são de mais de 6 anos, a URL da [LinkApi](https://developers.linkapi.solutions/docs/buscape) funciona porém a [documentação](http://developer.buscape.com.br/portal/buscape/api-de-produtos/introducao), geração de [token de acesso](http://developer.buscape.com.br/portal/buscape/api-de-produtos/autenticacao), e a [url de busca](http://api.buscape.com.br/) retornam DNS_PROBE_FINISHED_NXDOMAIN, frente a isso e para não efetuar apenas a consulta em uma API, visto que, na minha concepção, o desafio seria a união de duas APIs com retornos diferentes em modelos diferentes, utilizei a [BlueCardAPI](https://www.bluecartapi.com/), API do WallMart.
-- Ambas APIs são em idiomas diferentes e possui categorias diferentes, para questões de entrega do desafio e maior facilidade, criei as categorias "manualmente" utilizando os valores retornados por ambas APIs
+- WebScrapping feito no site do Buscapé porém o mesmo não é muito... "semântico" o que dificultou no código do backend, fazendo-o ser bem... desgastante para ser lido, principalmente para se retirar os valores através dos document.querySelector
